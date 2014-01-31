@@ -25,17 +25,32 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     // to get the current position and fill in the two text fields.
     if (instance.widget.type == 'geofield_latlon') {
       var lat = {
-        id: element.id + '-lat',
+        id: items[delta].id + '-lat',
         title: 'Latitude',
         type: 'textfield'
       };
       var lng = {
-        id: element.id + '-lng',
+        id: items[delta].id + '-lng',
         title: 'Longitude',
         type: 'textfield'
       };
+      var options = {
+        lat: lat.id,
+        lng: lng.id
+      };
+      var btn = {
+        id: items[delta].id + '-btn',
+        text: 'Get current position',
+        type: 'button',
+        options: {
+          attributes: {
+            onclick: '_geofield_field_widget_form_click(\'' + lat.id + '\', \'' + lng.id + '\')'
+          }
+        }
+      };
       items[delta].children.push(lat);
       items[delta].children.push(lng);
+      items[delta].children.push(btn);
     }
     else {
       console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
@@ -43,3 +58,25 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
   }
   catch (error) { console.log('geofield_field_widget_form - ' + error); }
 }
+
+/**
+ *
+ */
+function _geofield_field_widget_form_click(lat_id, lng_id) {
+  try {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        $('#' + lat_id).val(position.coords.latitude);
+        $('#' + lng_id).val(position.coords.longitude);
+      },
+      function(error) {
+        console.log('_geofield_field_widget_form_click - getCurrentPosition - ' + error);
+      },
+      {
+        enableHighAccuracy: true
+      }
+    );
+  }
+  catch (error) { console.log('_geofield_field_widget_form_click - ' + error); }
+}
+
