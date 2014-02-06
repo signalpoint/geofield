@@ -4,8 +4,20 @@
 function geofield_field_formatter_view(entity_type, entity, field, instance, langcode, items, display) {
   try {
     var element = {};
-    $.each(items, function(delta, item){
-        element[delta] = 'blah blah';
+    // Determine the format.
+    var format = display.settings.format;
+    if (format != 'decimal_degrees') {
+      console.log('geofield_field_formatter_view - Format not supported! (' + format + ')');
+      return element;
+    }
+    // Iterate over each item and assemble the element.
+    $.each(items, function(delta, item) {
+        var markup =
+        '<p>Latitude: ' + entity[field.field_name][langcode][delta].lat + '<br />' +
+        'Longitude: ' + entity[field.field_name][langcode][delta].lon + '</p>';
+        element[delta] = {
+          markup: markup
+        };
     });
     return element;
   }
@@ -138,4 +150,3 @@ function geofield_assemble_form_state_into_field(entity_type, bundle,
     console.log('geofield_assemble_form_state_into_field - ' + error);
   }
 }
-
