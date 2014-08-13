@@ -150,3 +150,105 @@ function geofield_assemble_form_state_into_field(entity_type, bundle,
     console.log('geofield_assemble_form_state_into_field - ' + error);
   }
 }
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function geofield_map_field_formatter_view(entity_type, entity, field, instance, langcode, items, display) {
+  try {
+    /*dpm(field);
+    dpm(instance);
+    dpm(items);
+    dpm(langcode);
+    dpm(display);*/
+    var page_id = drupalgap_get_page_id();
+    // Determine the format.
+    var element = {};
+    var type = display.type;
+    if (type != 'geofield_map_map') {
+      console.log('geofield_map_field_formatter_view - unsupported type! (' + type + ')');
+      return element;
+    }
+    $.each(items, function(delta, item) {
+        dpm(item);
+        var container_id = geofield_map_container_id(
+          entity_type,
+          entity[entity_primary_key(entity_type)],
+          field.field_name,
+          delta
+        );
+        var map_attributes = {
+          id: container_id,
+          style:
+            'width: ' + display.settings.geofield_map_width + '; ' +
+            'height: ' + display.settings.geofield_map_height
+        };
+        element[delta] = {
+          markup: '<div ' + drupalgap_attributes(map_attributes) + '></div>' +
+            drupalgap_jqm_page_event_script_code({
+                page_id: page_id,
+                jqm_page_event: 'pageshow',
+                jqm_page_event_callback: 'geofield_map_field_formatter_view_pageshow',
+                jqm_page_event_args: JSON.stringify({
+                    container_id: container_id,
+                    settings: display.settings,
+                    lat: item.lat,
+                    lon: item.lon
+                })
+            }, '' + delta)
+        };
+    });
+    return element;
+  }
+  catch (error) { console.log('geofield_map_field_formatter_view - ' + error); }
+}
+
+/**
+ *
+ */
+function geofield_map_field_formatter_view_pageshow(options) {
+  try {
+    //dpm(options);
+    
+    var myLatlng = new google.maps.LatLng(options.lat, options.lon);
+    
+    // Set the map's options.
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 12,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+      },
+      zoomControl: true,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL
+      }
+    };
+    
+    // Initialize the map.
+    var geofield_map = new google.maps.Map(
+      document.getElementById(options.container_id),
+      mapOptions
+    );
+    
+    // Add a marker for the user's current position.
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: geofield_map,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+    });
+  }
+  catch (error) { console.log('geofield_map_field_formatter_view_pageshow - ' + error); }
+}
+
+/**
+ *
+ */
+function geofield_map_container_id(entity_type, entity_id, field_name, delta) {
+  try {
+    return 'geofield_map_container_' + entity_type + '_' + entity_id + '_' + field_name + '_' + delta;
+  }
+  catch (error) { console.log('geofield_map_container_id - ' + error); }
+}
+
