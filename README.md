@@ -11,10 +11,7 @@ When using this feature on an actual mobile device, you must install this plugin
 cordova-plugin-geolocation.git
 ```
 
-# Geofield Map
-
-DrupalGap supports the Geofield Map format on your field's display settings. To
-work properly, make sure you:
+# Geofield Map Support
 
 *Step 1*
 
@@ -26,8 +23,11 @@ Include the Google Maps API V3 snippet in the `head` of your index.html file:
 
 *Step 2*
 
-Then visit the `Manage Display` page for your content type, and change your Geofield's `Format` to `Geofield Map`, for example:
+Visit the `Manage Display` page for your content type, and switch to the `DrupalGap` tab.
+
+Then change your Geofield's `Format` option to `Geofield Map`, for example:
 
 ```
+Structure -> Content types -> Articles -> Manage display -> DrupalGap
 admin/structure/types/manage/article/display/drupalgap
 ```
