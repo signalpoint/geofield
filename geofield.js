@@ -115,8 +115,10 @@ function _geofield_field_widget_form_click(lat_id, lon_id) {
   try {
     navigator.geolocation.getCurrentPosition(
       function(position) {
+        // Place the coordinate values into the text fields, then force a change
+        // event to fire.
         $('#' + lat_id).val(position.coords.latitude);
-        $('#' + lon_id).val(position.coords.longitude);
+        $('#' + lon_id).val(position.coords.longitude).change();
       },
       function(error) {
         console.log('_geofield_field_widget_form_click - getCurrentPosition - ' + error);
@@ -139,7 +141,7 @@ function geofield_assemble_form_state_into_field(entity_type, bundle,
     var coordinates = form_state_value.split(',');
     if (coordinates.length != 2) { return null; }
     // We don't want to use a key for this item's value.
-    field_key.use_key = false;
+    field_key.value = 'geom';
     // Return the assembled value.
     return {
       lat: coordinates[0],
