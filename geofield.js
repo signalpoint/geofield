@@ -233,6 +233,9 @@ function geofield_map_field_formatter_view_pageshow(options) {
       document.getElementById(options.container_id),
       mapOptions
     );
+    setTimeout(function() {
+        google.maps.event.trigger(geofield_map, 'resize');
+    }, 500);
     
     // Add a marker for the user's current position.
     var marker = new google.maps.Marker({
