@@ -35,7 +35,7 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     
     // For a latitude/longitude widget, we create two text fields and a button
     // to get the current position and fill in the two text fields.
-    if (instance.widget.type == 'geofield_latlon') {
+    if (in_array(instance.widget.type, ['geofield_latlon', 'geofield_openlayers'])) {
       var onchange = '_geofield_field_widget_form_change(this, \'' + items[delta].id + '\')';
       var lat_id = items[delta].id + '-lat';
       var lat = {
