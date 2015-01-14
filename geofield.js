@@ -172,7 +172,6 @@ function geofield_map_field_formatter_view(entity_type, entity, field, instance,
       return element;
     }
     $.each(items, function(delta, item) {
-        dpm(item);
         var container_id = geofield_map_container_id(
           entity_type,
           entity[entity_primary_key(entity_type)],
