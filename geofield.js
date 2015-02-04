@@ -75,9 +75,9 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
           }
         }
       };
+      items[delta].children.push(btn);
       items[delta].children.push(lat);
       items[delta].children.push(lon);
-      items[delta].children.push(btn);
     }
     else {
       console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
