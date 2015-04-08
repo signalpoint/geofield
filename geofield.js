@@ -29,6 +29,7 @@ function geofield_field_formatter_view(entity_type, entity, field, instance, lan
  */
 function geofield_field_widget_form(form, form_state, field, instance, langcode, items, delta, element) {
   try {
+
     // Convert the form element to a hidden field since we'll populate it with
     // values dynamically later on.
     items[delta].type = 'hidden';
@@ -51,7 +52,8 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
       options: {
         attributes: {
           id: lat_id,
-          onchange: onchange
+          onchange: onchange,
+          value: items[delta].item ? parseFloat(items[delta].item.lat).toFixed(7) : ''
         }
       }
     };
@@ -63,7 +65,8 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
       options: {
         attributes: {
           id: lon_id,
-          onchange: onchange
+          onchange: onchange,
+          value: items[delta].item ? parseFloat(items[delta].item.lon).toFixed(7) : ''
         }
       }
     };
