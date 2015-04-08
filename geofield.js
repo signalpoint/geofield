@@ -33,55 +33,58 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     // values dynamically later on.
     items[delta].type = 'hidden';
     
+    // Make sure the widget is supported.
+    var supported_widgets = ['geofield_latlon', 'geofield_openlayers', 'geofield_gmap'];
+    if (!in_array(instance.widget.type, supported_widgets)) {
+      console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
+      return;
+    }
+
     // For a latitude/longitude widget, we create two text fields and a button
     // to get the current position and fill in the two text fields.
-    if (in_array(instance.widget.type, ['geofield_latlon', 'geofield_openlayers'])) {
-      var onchange = '_geofield_field_widget_form_change(this, \'' + items[delta].id + '\')';
-      var lat_id = items[delta].id + '-lat';
-      var lat = {
-        id: lat_id,
-        title: 'Latitude',
-        type: 'textfield',
-        options: {
-          attributes: {
-            id: lat_id,
-            onchange: onchange
-          }
+    var onchange = '_geofield_field_widget_form_change(this, \'' + items[delta].id + '\')';
+    var lat_id = items[delta].id + '-lat';
+    var lat = {
+      id: lat_id,
+      title: 'Latitude',
+      type: 'textfield',
+      options: {
+        attributes: {
+          id: lat_id,
+          onchange: onchange
         }
-      };
-      var lon_id = items[delta].id + '-lon';
-      var lon = {
-        id: lon_id,
-        title: 'Longitude',
-        type: 'textfield',
-        options: {
-          attributes: {
-            id: lon_id,
-            onchange: onchange
-          }
+      }
+    };
+    var lon_id = items[delta].id + '-lon';
+    var lon = {
+      id: lon_id,
+      title: 'Longitude',
+      type: 'textfield',
+      options: {
+        attributes: {
+          id: lon_id,
+          onchange: onchange
         }
-      };
-      var options = {
-        lat: lat.id,
-        lon: lon.id
-      };
-      var btn = {
-        id: items[delta].id + '-btn',
-        text: 'Get current position',
-        type: 'button',
-        options: {
-          attributes: {
-            onclick: '_geofield_field_widget_form_click(\'' + lat.id + '\', \'' + lon.id + '\')'
-          }
+      }
+    };
+    var options = {
+      lat: lat.id,
+      lon: lon.id
+    };
+    var btn = {
+      id: items[delta].id + '-btn',
+      text: 'Get current position',
+      type: 'button',
+      options: {
+        attributes: {
+          onclick: '_geofield_field_widget_form_click(\'' + lat.id + '\', \'' + lon.id + '\')'
         }
-      };
-      items[delta].children.push(btn);
-      items[delta].children.push(lat);
-      items[delta].children.push(lon);
-    }
-    else {
-      console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
-    }
+      }
+    };
+    items[delta].children.push(btn);
+    items[delta].children.push(lat);
+    items[delta].children.push(lon);
+
   }
   catch (error) { console.log('geofield_field_widget_form - ' + error); }
 }
