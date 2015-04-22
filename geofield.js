@@ -33,12 +33,17 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     // Convert the form element to a hidden field since we'll populate it with
     // values dynamically later on.
     items[delta].type = 'hidden';
-    
+
     // Make sure the widget is supported.
     var supported_widgets = ['geofield_latlon', 'geofield_openlayers', 'geofield_gmap'];
     if (!in_array(instance.widget.type, supported_widgets)) {
       console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
       return;
+    }
+
+    // If we have an existing value, add it to the element.
+    if (items[delta].item) {
+      items[delta].value = items[delta].item.lat + ',' + items[delta].item.lon;
     }
 
     // For a latitude/longitude widget, we create two text fields and a button
