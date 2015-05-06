@@ -35,7 +35,7 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     items[delta].type = 'hidden';
 
     // Make sure the widget is supported.
-    var supported_widgets = ['geofield_latlon', 'geofield_openlayers', 'geofield_gmap'];
+    var supported_widgets = ['geofield_latlon', 'geofield_openlayers', 'geofield_gmap', 'leaflet_widget_widget'];
     if (!in_array(instance.widget.type, supported_widgets)) {
       console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
       return;
