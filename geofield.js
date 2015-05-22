@@ -13,8 +13,8 @@ function geofield_field_formatter_view(entity_type, entity, field, instance, lan
     // Iterate over each item and assemble the element.
     $.each(items, function(delta, item) {
         var markup =
-        '<p>Latitude: ' + entity[field.field_name][langcode][delta].lat + '<br />' +
-        'Longitude: ' + entity[field.field_name][langcode][delta].lon + '</p>';
+        '<p>' + t('Latitude') + ': ' + entity[field.field_name][langcode][delta].lat + '<br />' +
+        t('Longitude') + ': ' + entity[field.field_name][langcode][delta].lon + '</p>';
         element[delta] = {
           markup: markup
         };
@@ -52,7 +52,7 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     var lat_id = items[delta].id + '-lat';
     var lat = {
       id: lat_id,
-      title: 'Latitude',
+      title: t('Latitude'),
       type: 'textfield',
       options: {
         attributes: {
@@ -65,7 +65,7 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     var lon_id = items[delta].id + '-lon';
     var lon = {
       id: lon_id,
-      title: 'Longitude',
+      title: t('Longitude'),
       type: 'textfield',
       options: {
         attributes: {
@@ -81,7 +81,7 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     };
     var btn = {
       id: items[delta].id + '-btn',
-      text: 'Get current position',
+      text: t('Get current position'),
       type: 'button',
       options: {
         attributes: {
@@ -268,3 +268,10 @@ function geofield_map_container_id(entity_type, entity_id, field_name, delta) {
   catch (error) { console.log('geofield_map_container_id - ' + error); }
 }
 
+/**
+ * Implements hook_locale().
+ */
+function geofield_locale() {
+  // Tell DrupalGap we have custom Spanish and Italian translations to load.
+  return ['it', 'zh-hant', 'zh-hans'];
+}
