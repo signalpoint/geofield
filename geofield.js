@@ -13,8 +13,8 @@ function geofield_field_formatter_view(entity_type, entity, field, instance, lan
     // Iterate over each item and assemble the element.
     $.each(items, function(delta, item) {
         var markup =
-        '<p>' + t('Latitude') : + entity[field.field_name][langcode][delta].lat + '<br />' +
-        t('Longitude') : + entity[field.field_name][langcode][delta].lon + '</p>';
+        '<p>' + t('Latitude') + ': ' + entity[field.field_name][langcode][delta].lat + '<br />' +
+        t('Longitude') + ': ' + entity[field.field_name][langcode][delta].lon + '</p>';
         element[delta] = {
           markup: markup
         };
