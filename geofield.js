@@ -273,5 +273,5 @@ function geofield_map_container_id(entity_type, entity_id, field_name, delta) {
  */
 function geofield_locale() {
   // Tell DrupalGap we have custom Spanish and Italian translations to load.
-  return ['it'];
+  return ['it', 'zh-hant', 'zh-hans'];
 }
