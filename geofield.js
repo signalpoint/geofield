@@ -1,3 +1,5 @@
+angular.module('geofield', ['drupalgap']);
+
 /**
  * Implements hook_field_formatter_view().
  */
@@ -169,11 +171,11 @@ function geofield_assemble_form_state_into_field(entity_type, bundle,
  */
 function geofield_map_field_formatter_view(entity_type, entity, field, instance, langcode, items, display) {
   try {
-    /*dpm(field);
-    dpm(instance);
-    dpm(items);
-    dpm(langcode);
-    dpm(display);*/
+    //dpm(field);
+    //dpm(instance);
+    //dpm(items);
+    //dpm(langcode);
+    //dpm(display);
     var page_id = drupalgap_get_page_id();
     // Determine the format.
     var element = {};
