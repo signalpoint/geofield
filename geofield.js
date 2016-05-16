@@ -35,7 +35,13 @@ function geofield_field_widget_form(form, form_state, field, instance, langcode,
     items[delta].type = 'hidden';
 
     // Make sure the widget is supported.
-    var supported_widgets = ['geofield_latlon', 'geofield_openlayers', 'geofield_gmap', 'leaflet_widget_widget'];
+    var supported_widgets = [
+      'geofield_latlon',
+      'geofield_openlayers',
+      'geofield_gmap',
+      'leaflet_widget_widget',
+      'geolocation_googlemap'
+    ];
     if (!in_array(instance.widget.type, supported_widgets)) {
       console.log('WARNING: geofield_field_widget_form() - widget type not supported! (' + instance.widget.type + ')');
       return;
@@ -132,7 +138,24 @@ function _geofield_field_widget_form_click(lat_id, lon_id) {
         $('#' + lon_id).val(position.coords.longitude).change();
       },
       function(error) {
-        console.log('_geofield_field_widget_form_click - getCurrentPosition - ' + error);
+        console.log('_geofield_field_widget_form_click - getCurrentPosition', error);
+
+        // Process error code.
+        switch (error.code) {
+
+           // PERMISSION_DENIED
+          case 1:
+            break;
+
+          // POSITION_UNAVAILABLE
+          case 2:
+            break;
+
+          // TIMEOUT
+          case 3:
+            break;
+
+        }
       },
       {
         enableHighAccuracy: true
